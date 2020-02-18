@@ -1,5 +1,5 @@
 # GDAT 515: Final Project
-## Statement of Work
+### Statement of Work
 
 ### Problem Statement
 
