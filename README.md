@@ -1,8 +1,6 @@
 # GDAT 515: Final Project
-## John Viviani
+## Statement of Work
 
-#### Statement of Work
+## Problem Statement
 
-# Problem Statement
-
-# Technical Objectives
+## Technical Objectives
