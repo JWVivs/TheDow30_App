@@ -1,4 +1,4 @@
-# jviviani-finalproject
+# GDAT 515: Final Project
 ## Statement of Work
 
 ### Problem Statement
