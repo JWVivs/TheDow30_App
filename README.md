@@ -7,7 +7,9 @@ Investors want to be informed about the index funds/companies they are investing
 
 ### Technical Objectives
 Environment: RStudio
+
 Data Sources: finance.yahoo.com
+
 Primary Package Dependencies: ggplot, plotly, shiny, and flexdashboard
 
 
