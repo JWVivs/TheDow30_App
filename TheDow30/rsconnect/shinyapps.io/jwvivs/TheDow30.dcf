@@ -5,8 +5,9 @@ account: jwvivs
 server: shinyapps.io
 hostUrl: https://api.shinyapps.io/v1
 appId: 1870584
-bundleId: 2833135
+bundleId: 2833372
 url: https://jwvivs.shinyapps.io/TheDow30/
-when: 1582768891.99799
+when: 1582779496.47404
 asMultiple: FALSE
 asStatic: FALSE
+ignoredFiles: Stock_App.R

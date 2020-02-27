@@ -6,6 +6,7 @@ library(shinydashboard)
 library(tidyr)
 library(dplyr)
 library(plotly)
+library(tidyquant)
 # devtools::install_github('ropensci/plotly')
 
 tickers <- c("AXP", "AAPL", "BA", "CAT", "CSCO", "CVX", "XOM", "GS", "HD",
@@ -26,14 +27,21 @@ data.frame(date = index(pframe), coredata(pframe)) -> df
 df %>%
     gather(., value = "price", key = stock, -date) -> df1
 
+# Pulling DJI stock data
+getSymbols("^DJI", from = "2019-02-24", to = "2020-02-24")
+
+# Converting list to a data frame
+data.frame(date = index(DJI), coredata(DJI)) -> df_dji
+
 # Define UI for Stock app ----
 ui <- dashboardPage(skin = "green",
                     dashboardHeader(title = "Dashboard"),
                     # Sidebar content
                     dashboardSidebar(
                         sidebarMenu(
-                            menuItem("Application", tabName = "application", icon = icon("chart-line")),
-                            menuItem("App Info", tabName = "appinfo", icon = icon("info-circle"))
+                            menuItem("Application", tabName = "application", icon = icon("wrench")),
+                            menuItem("App Info", tabName = "appinfo", icon = icon("info-circle")),
+                            menuItem("DJI Chart", tabName = "dji", icon = icon("chart-line"))
                         )
                     ),
                     # Body content
@@ -47,7 +55,9 @@ ui <- dashboardPage(skin = "green",
                                     h3("Click on the drop-down menu to select one of the stocks featured in The Dow 30. Once selected, a scatterplot will
                  be generated, which features data regarding the stock's closing price from February 24th 2019 to February 24th 2020.
                  If you would like to view a specific timeframe, select one of the four available options from the rangeslider. You can click
-                 and drag the slider to view a specific window of time. By clicking 'Reset', you will be able to view the entirety of the data again."))
+                 and drag the slider to view a specific window of time. By clicking 'Reset', you will be able to view the entirety of the data again.")),
+                            # Third tab content
+                            tabItem(tabName = "dji", plotOutput("djiPlot"))
                         ),
                         fluidPage(
                             
@@ -127,7 +137,7 @@ server <- function(input, output) {
                     color = 'rgba(0, 204, 51, 1)')) %>%
             layout(
                 title = "Closing Stock Prices from February 24th 2019 to February 24th 2020",
-                xaxis = list(title = "Date",
+                xaxis = list(title = "",
                              rangeselector = list(visible = TRUE, x = 0.5, y = -0.75,
                                                   xanchor = 'center', yref = 'paper',
                                                   buttons = list(
@@ -153,6 +163,18 @@ server <- function(input, output) {
                 
                 yaxis = list(title = "Price"))
         
+    })
+    
+    output$djiPlot <- renderPlot({
+        ggplot(df_dji, mapping = aes(x = date, y = DJI.Close)) + 
+            geom_candlestick(mapping = aes(open = DJI.Open, close = DJI.Close,
+                                           high = DJI.High, low = DJI.Low),
+                             colour_up = "darkgreen", colour_down = "red",
+                             fill_up = "darkgreen", fill_down = "red") + 
+            labs(title = "Dow Jones Index", x = "", y = "Closing Price",
+                 subtitle = "February 24th 2019 through February 24th 2020") + 
+            theme_bw() + 
+            theme(axis.text.x = element_text(angle = 90, hjust = 1))
     })
 }
 
