@@ -12,4 +12,7 @@ Data Sources: finance.yahoo.com
 
 Primary Package Dependencies: ggplot, plotly, shiny, and flexdashboard
 
+### Link to App
+https://jwvivs.shinyapps.io/TheDow30/
+
 
